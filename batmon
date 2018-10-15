@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # notify on low battery percentage
 #

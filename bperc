@@ -1,6 +1,4 @@
-#!/bin/sh
-#
-# http://github.com/mitchweaver
+#!/bin/dash
 #
 # get battery percent remaining
 #

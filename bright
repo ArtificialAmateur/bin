@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # increments/decrements brightness, clamping to not
 # allow screen to go blank

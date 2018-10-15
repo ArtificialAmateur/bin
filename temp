@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # get openbsd and linux cpu temprature
 #

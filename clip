@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # A tiny dmenu based clipboard manager
 #

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # Screen Capture
 #
@@ -19,14 +19,14 @@ usage() {
 quality=100
 while [ $# -gt 0 ] ; do
     case "$1" in
-        --output|-o) shift ; file="$1" ;;
+        --output|-o) dashift ; file="$1" ;;
         --no-crop|-n) nocrop=true ;;
         --upload|-u)  upload=true ;;
         --quality|-q) quality=$1 ;;
         --help|-h) usage ;;
         *) file="$1"
     esac
-    shift
+    dashift
 done
 
 if [ -z "$file" ] ; then
@@ -48,7 +48,7 @@ fi
 ln -sf "$file" /tmp/scrap.png
 
 if [ "$upload" ] ; then
-    # url=$(sh ~/bin/ix "$file")
+    # url=$(dash ~/bin/ix "$file")
     url=`curl -sF file=@"$file" http://0x0.st`
     echo $url
     for i in is ib ip ; do

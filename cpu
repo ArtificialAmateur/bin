@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # Get cpu percent usage on Linux and OpenBSD
 #

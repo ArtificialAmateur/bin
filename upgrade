@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # Upgrade Debian and OpenBSD
 #
