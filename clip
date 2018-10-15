@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# A tiny dmenu based clipboard manager
+#
+
+usage() { >&2 echo "Use -d to start the daemon" ; exit ; }
+
+log="/tmp/clip-${USER}.log"
+menu="${HOME}/bin/menu -p Clipboard:"
+
+if [ $# -eq 0 ] ; then
+    [ ! -f "$log" ] && usage
+
+    # note: the sed is to emulate 'tac' from gnu core utils
+    sel="$(cat $log | awk '!seen[$0]++' | sed '1!G;h;$!d' | $menu)"
+
+    [ -z "$sel" ] && exit 1
+
+    echo -n "$sel" | xsel -ib
+    echo -n "$sel" | xsel -is
+else
+    case "$1" in
+        --daemon|-d)
+            [ -f "$log" ] && rm "$log"
+            while sleep 0.5 ; do
+                new=`xsel -op`
+                [ "$new" = "$tmp" ] && continue 
+                echo "$new" >> "$log"
+                tmp="$new"
+            done
+            ;;
+        *) usage
+    esac
+fi

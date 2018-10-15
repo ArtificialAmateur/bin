@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Get cpu percent usage on Linux and OpenBSD
+#
+
+case $(uname) in
+    Linux)
+        top -bn1 | grep "Cpu(s)" | \
+            sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | \
+            awk '{print 100 - $1"%"}'
+        ;;
+    OpenBSD)
+        # get load averages for the past minute
+        load=$(uptime | grep -o 'es:.*' | sed 's/es: //' | sed 's/,.*//')
+
+        # convert to percentage
+        load=$(echo ${load} \* 100 | bc | sed 's/...$//')
+
+        # divide out by number of processors
+        echo "$(( ${load} / $(sysctl -n hw.ncpu) ))%"
+        ;;
+esac

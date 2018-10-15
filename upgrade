@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Upgrade Debian and OpenBSD
+#
+
+case $(uname) in
+    Linux)
+        sudo apt update
+        sudo apt full-upgrade
+        sudo apt autoremove
+        sudo apt autoclean
+        ;;
+    OpenBSD)
+        doas syspatch
+        doas pkg_add -uU
+        doas pkg_delete -a
+        ;;
+esac

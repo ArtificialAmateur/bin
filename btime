@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# Get estimated battery time life on OpenBSD
+#
+
+case $(uname) in
+    OpenBSD)
+        mins=$(apm -m)
+	[ "$mins" = "unknown" ] && 
+    		{ echo "charging..." ; exit ; }
+
+	while [ $mins -ge 60 ] ; do
+    		mins=$(( $mins - 60 ))
+    		hours=$(( $hours + 1 ))
+	done
+
+	[ -n "$hours" ] &&
+    		[ $hours -gt 1 ] &&
+        		hs="hours" ||
+        		hs="hour"
+
+	[ -n "$hours" ] &&
+    		{ [ $mins -gt 0 ] &&
+        		echo "$hours $hs $mins min" ||
+        		echo "$hours $hs" ; } || 
+    		echo "$mins min"
+	;;
+    Linux)
+	echo "Not available for Linux yet."
+	;;
+esac

@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# get openbsd and linux cpu temprature
+#
+
+case $(uname) in
+    Linux)
+	cat /sys/class/thermal/thermal_zone*/temp
+	;;
+    OpenBSD)
+	sysctl -n hw.sensors.cpu0.temp0 | \
+    	    sed 's/\.00 degC/°C/g'
+	;;
+esac
