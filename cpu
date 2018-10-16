@@ -5,9 +5,10 @@
 
 case $(uname) in
     Linux)
-        top -bn1 | grep "Cpu(s)" | \
-            sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | \
-            awk '{print 100 - $1"%"}'
+        load=`top -bn1 | grep "Cpu(s)" | \
+                   sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | \
+                   awk '{print 100 - $1"%"}'`
+	echo "CPU Usage: $load"
         ;;
     OpenBSD)
         # get load averages for the past minute
@@ -17,6 +18,6 @@ case $(uname) in
         load=$(echo ${load} \* 100 | bc | sed 's/...$//')
 
         # divide out by number of processors
-        echo "$(( ${load} / $(sysctl -n hw.ncpu) ))%"
+        echo "CPU Usage: $(( ${load} / $(sysctl -n hw.ncpu) ))%"
         ;;
 esac

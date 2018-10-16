@@ -1,0 +1,14 @@
+#!/bin/dash
+
+cpu="$(cpu | tr -d 'CPU Usage: ')"
+ram="$(mem -m | awk '{print $3}')"
+vol="$(vol)"
+bat="$(bperc)"
+uptime="$(uptime| awk -F, '{sub(".*up ",x,$1);print $1}' | sed -e 's/^[ \t]*//' | tr -d ' ins')"
+
+
+while true;
+do
+    xsetroot -name "[CPU $cpu] [RAM $ram] [VOL $vol] [BAT $bat%] [UP $uptime] [$(date)]"
+    sleep 1
+done

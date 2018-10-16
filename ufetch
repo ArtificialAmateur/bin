@@ -1,0 +1,67 @@
+#!/bin/dash
+#
+# ufetch-openbsd - tiny system info for openbsd
+
+## INFO
+
+# user is already defined
+host="$(hostname)"
+os="$(uname -sr)"
+kernel="$(uname -v)"
+machine="$(sysctl -n hw.version)"
+uptime="$(uptime | awk -F, '{sub(".*up ",x,$1);print $1}' | sed -e 's/^[ \t]*//')"
+packages="$(ls -d /var/db/pkg/* | wc -l | sed -e 's/^[ \t]*//')"
+memory="$(mem -m | sed 's/Memory Usage: //g')"
+shell="$(basename $SHELL)"
+
+if [ -z "${WM}" ]; then
+	if [ "${XDG_CURRENT_DESKTOP}" ]; then
+		envtype='DE'
+		WM="${XDG_CURRENT_DESKTOP}"
+	elif [ "${DESKTOP_SESSION}" ]; then
+		envtype='DE'
+		WM="${DESKTOP_SESSION}"
+	else
+		envtype='WM'
+		WM="$(tail -n 1 "${HOME}/.xinitrc" | cut -d ' ' -f 2)"
+	fi
+else
+	envtype='WM'
+fi
+
+## DEFINE COLORS
+
+# probably don't change these
+bold="$(tput bold)"
+black="$(tput setf 0)"
+red="$(tput setf 1)"
+green="$(tput setf 2)"
+yellow="$(tput setf 3)"
+blue="$(tput setf 4)"
+magenta="$(tput setf 5)"
+cyan="$(tput setf 6)"
+white="$(tput setf 7)"
+reset="$(tput sgr0)"
+
+# you can change these
+lc="${reset}${magenta}"	# labels
+nc="${reset}${magenta}"	# user and hostname
+ic="${reset}${white}"	# info
+c0="${reset}${magenta}"			# first color
+c1="${reset}${white}"			# second color
+c2="${reset}${magenta}"	# third color
+
+
+## OUTPUT
+
+cat <<EOF
+
+${c0}       _____      ${nc}${USER}${ic}@${nc}${host}${reset}
+${c0}     \-     -/    ${lc}OS:        ${ic}${os}${reset}
+${c0}  \_/         \   ${lc}MACHINE:   ${ic}${machine}${reset}
+${c0}  |        ${c1}O O ${c0}|  ${lc}PACKAGES:  ${ic}${packages}${reset}
+${c0}  |_  ${c2}<   ${c0})  ${c2}3 ${c0})  ${lc}MEMORY:    ${ic}${memory}${reset}
+${c0}  / \         /   ${lc}SHELL:     ${ic}${shell}${reset}
+${c0}     /-_____-\    ${lc}${envtype}:        ${ic}${WM}${reset}
+
+EOF
