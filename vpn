@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # openvpn wrapper for ease of use 
 #
@@ -29,7 +29,7 @@ case "$1" in
     jap*|-jp) loc=Japan        ;;
     rom*|-ro) loc=Romania      ;;
     uni*|*us) loc=US\ Midwest  ;; 
-    *) loc="$(ls *.ovpn | { sort -R || dashuf ; } 2> /dev/null | head -n 1)"
+    *) loc="$(ls *.ovpn | { sort -R || shuf ; } 2> /dev/null | head -n 1)"
        loc="${loc%.*}"
 esac
 

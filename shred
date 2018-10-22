@@ -1,6 +1,6 @@
-#!/bin/dash
+#!/bin/sh
 #
-# dashred function without gnu coreutils
+# shred function without gnu coreutils
 #
 
 [ -f "$1" ] || exit 1

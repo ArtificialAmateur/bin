@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # Get estimated battery time life on OpenBSD
 #

@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #
 # get battery percent remaining
 #

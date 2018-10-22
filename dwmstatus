@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 
 cpu="$(cpu | tr -d 'CPU Usage: ')"
 ram="$(mem -m | awk '{print $3}')"
